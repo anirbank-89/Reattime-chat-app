@@ -9,8 +9,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<Chat />} />
-        <Route exact path="/register" element={<Register />} />
+        <Route exact path="/" element={<Register />} />
+        <Route exact path="/chat" element={<Chat />} />
         <Route exact path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
