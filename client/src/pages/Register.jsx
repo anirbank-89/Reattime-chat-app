@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import Logo from '../assets/logo.svg';
 import 'react-toastify/dist/ReactToastify.css';
+import { JSON_API } from '../services/api';
 
 const FormContainer = styled.div`
   height: 100vh;
@@ -76,13 +77,15 @@ const FormContainer = styled.div`
   }
 `;
 
+let registerInitialValue = {
+  username: '',
+  email: '',
+  password: '',
+  cnf_password: '',
+};
+
 const Register = () => {
-  const [user, setUser] = useState({
-    username: '',
-    email: '',
-    password: '',
-    cnf_password: '',
-  });
+  const [newUser, setNewUser] = useState(registerInitialValue);
   const toastOptions = {
     position: 'bottom-right',
     autoClose: 8000,
@@ -91,14 +94,22 @@ const Register = () => {
     theme: 'dark',
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (handleValidation()) {
+      let res = await JSON_API['userSignup'](newUser);
+
+      if (res.isSuccess) {
+        setNewUser(registerInitialValue);
+        toast.success('User successfully registered', toastOptions);
+      } else {
+        toast.error('Something went wrong', toastOptions);
+      }
     }
   };
 
   const handleValidation = () => {
-    const { username, email, password, cnf_password } = user;
+    const { username, email, password, cnf_password } = newUser;
 
     if (password.length < 8) {
       toast.error('Password should be more than 8 characters.', toastOptions);
@@ -125,7 +136,7 @@ const Register = () => {
   };
 
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setNewUser({ ...newUser, [e.target.name]: e.target.value });
   };
 
   return (
