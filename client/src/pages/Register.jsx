@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -85,7 +85,9 @@ let registerInitialValue = {
 };
 
 const Register = () => {
+  const navigate = useNavigate();
   const [newUser, setNewUser] = useState(registerInitialValue);
+
   const toastOptions = {
     position: 'bottom-right',
     autoClose: 8000,
@@ -93,6 +95,12 @@ const Register = () => {
     draggable: true,
     theme: 'dark',
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('chat-app-user')) {
+      navigate('/chat');
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -102,6 +110,16 @@ const Register = () => {
       if (res.isSuccess) {
         setNewUser(registerInitialValue);
         toast.success('User successfully registered', toastOptions);
+        localStorage.setItem(
+          'chat-app-user',
+          JSON.stringify(res.data.userDetails)
+        );
+        sessionStorage.setItem('accessToken', `Bearer ${res.data.accessToken}`);
+        sessionStorage.setItem(
+          'refreshToken',
+          `Bearer ${res.data.refreshToken}`
+        );
+        navigate('/chat');
       } else {
         toast.error('Something went wrong', toastOptions);
       }
@@ -152,6 +170,7 @@ const Register = () => {
             name="username"
             id=""
             placeholder="Username"
+            value={newUser.username}
             onChange={(e) => handleChange(e)}
           />
           <input
@@ -159,6 +178,7 @@ const Register = () => {
             name="email"
             id=""
             placeholder="Email"
+            value={newUser.email}
             onChange={(e) => handleChange(e)}
           />
           <input
@@ -166,6 +186,7 @@ const Register = () => {
             name="password"
             id=""
             placeholder="Password"
+            value={newUser.password}
             onChange={(e) => handleChange(e)}
           />
           <input
@@ -173,6 +194,7 @@ const Register = () => {
             name="cnf_password"
             id=""
             placeholder="Confirm Password"
+            value={newUser.cnf_password}
             onChange={(e) => handleChange(e)}
           />
           <button type="submit">Create User</button>

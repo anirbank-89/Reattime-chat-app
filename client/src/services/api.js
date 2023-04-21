@@ -5,6 +5,7 @@ import {
   API_NOTIFICATION_MESSAGES,
   SERVICE_URLS,
 } from '../constants/config';
+import { getTokens } from '../utils/common-utils';
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -30,7 +31,7 @@ axiosInstance.interceptors.response.use(
   },
   function (error) {
     // Stop the global loader here
-    return Promise.reject(processError(error));
+    return processError(error); // Promise.reject()
   }
 );
 
@@ -59,6 +60,7 @@ const processError = (error) => {
       isError: true,
       msg: API_NOTIFICATION_MESSAGES.responseFailure,
       code: error.response.status,
+      error: error.response.data,
     };
   } else if (error.request) {
     // Request made but no response received, maybe due to no connectivity
@@ -88,6 +90,7 @@ for (const [key, value] of Object.entries(SERVICE_URLS)) {
       url: value.url,
       data: body,
       responseType: value.responseType,
+      headers: getTokens(),
       onUploadProgress: function (progressEvent) {
         if (showUploadProgress) {
           let percentageCompleted = Math.round(

@@ -9,11 +9,18 @@ export const createUserSchema = object({
       .email('Must be a valid email')
       .required('Email is required'),
     password: string()
-      .required('Password is required')
-      .min(8, 'Password is too short - should be 6 chars minimum'),
+      .min(8, 'Password is too short - should be 6 chars minimum')
+      .required('Password is required'),
     cnf_password: string().oneOf(
       [ref('password'), undefined],
       "Passwords don't match"
     ),
+  }),
+});
+
+export const createUserSessionSchema = object({
+  body: object({
+    usernameOrEmail: string(),
+    password: string().required('Password is required'),
   }),
 });

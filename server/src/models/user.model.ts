@@ -7,6 +7,8 @@ export interface UserDocument extends mongoose.Document {
   username: string;
   email: string;
   password: string;
+  isAvatarImageSet: boolean;
+  avatarImage: string;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -27,6 +29,14 @@ const USER_SCHEMA = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    isAvatarImageSet: {
+      type: Boolean,
+      default: false,
+    },
+    avatarImage: {
+      type: String,
+      default: '',
     },
   },
   { timestamps: true }
