@@ -5,7 +5,9 @@ import { useEffect } from 'react';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Chat from './pages/Chat';
-import SetAvatar from './pages/SetAvatar';
+
+// Components
+import SetAvatar from './components/SetAvatar';
 
 function App() {
   useEffect(() => {

@@ -77,6 +77,14 @@ const FormContainer = styled.div`
   }
 `;
 
+const toastOptions = {
+  position: 'bottom-right',
+  autoClose: 8000,
+  pauseOnHover: true,
+  draggable: true,
+  theme: 'dark',
+};
+
 let registerInitialValue = {
   username: '',
   email: '',
@@ -87,14 +95,6 @@ let registerInitialValue = {
 const Register = () => {
   const navigate = useNavigate();
   const [newUser, setNewUser] = useState(registerInitialValue);
-
-  const toastOptions = {
-    position: 'bottom-right',
-    autoClose: 8000,
-    pauseOnHover: true,
-    draggable: true,
-    theme: 'dark',
-  };
 
   useEffect(() => {
     if (localStorage.getItem('chat-app-user')) {

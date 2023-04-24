@@ -77,6 +77,14 @@ const FormContainer = styled.div`
   }
 `;
 
+const toastOptions = {
+  position: 'bottom-right',
+  autoClose: 8000,
+  pauseOnHover: true,
+  draggable: true,
+  theme: 'dark',
+};
+
 let loginInitialValue = {
   usernameOrEmail: '',
   password: '',
@@ -85,14 +93,6 @@ let loginInitialValue = {
 const Login = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(loginInitialValue);
-
-  const toastOptions = {
-    position: 'bottom-right',
-    autoClose: 8000,
-    pauseOnHover: true,
-    draggable: true,
-    theme: 'dark',
-  };
 
   useEffect(() => {
     if (localStorage.getItem('chat-app-user')) {
