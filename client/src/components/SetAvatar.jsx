@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import { Buffer } from 'buffer';
+import { createAvatar } from '@dicebear/core';
+import { lorelei } from '@dicebear/collection';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -32,12 +34,22 @@ const SetAvatar = () => {
     async function fetchImg() {
       for (let i = 0; i < 4; i++) {
         // Generate random avatars
-        await axios
-          .get(`${AVATAR_GEN}/${Math.round(Math.random() * 1000)}`)
+        // await axios
+        //   .get(`${AVATAR_GEN}/${Math.round(Math.random() * 1000)}`)
+
+        // https://www.dicebear.com/how-to-use/js-library
+        const avatar = createAvatar(lorelei, {
+          seed: 'Felix',
+          flip: 'false',
+        });
+
+        await avatar
+          .toDataUri()
           .then((file) => {
             console.log('image', file);
-            const buffer = new Buffer(file.data);
-            data.push(buffer.toString('base64'));
+            // const buffer = new Buffer(file.data);
+            // data.push(buffer.toString('base64'));
+            data.push(file);
           })
           .catch((err) => {
             console.log('Avatar get error due to ', err);
@@ -66,7 +78,7 @@ const SetAvatar = () => {
                   key={idx}
                 >
                   <img
-                    src={`data:image/svg+xml;base64,${item}`}
+                    src={item}
                     alt="avatar"
                     key={item}
                     onClick={() => setSelectedAvatar(idx)}

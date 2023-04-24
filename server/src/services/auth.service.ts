@@ -54,7 +54,7 @@ export function createAccessToken(
       >
 ) {
   const accessToken = sign(user, {
-    expiresIn: Number(process.env.ACCESS_TOKEN_TTL),
+    expiresIn: 3600, // Number(process.env.ACCESS_TOKEN_TTL),
   });
 
   return accessToken;

@@ -19,7 +19,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
     // create refresh token - utils
     const refreshToken = sign(omit(user.toJSON(), 'password'), {
-      expiresIn: Number(process.env.REFRESH_TOKEN_TTL),
+      expiresIn: 60, // Number(process.env.REFRESH_TOKEN_TTL),
     });
 
     return res.status(201).send({
@@ -53,7 +53,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
     // create refresh token - utils
     const refreshToken = sign(user, {
-      expiresIn: Number(process.env.REFRESH_TOKEN_TTL),
+      expiresIn: 60, // Number(process.env.REFRESH_TOKEN_TTL),
     });
 
     // send access and refresh token back
