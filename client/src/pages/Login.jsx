@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 import Logo from '../assets/logo.svg';
 import 'react-toastify/dist/ReactToastify.css';
+import { DataContext } from '../context/DataProvider';
 import { JSON_API } from '../services/api';
 
 const FormContainer = styled.div`
@@ -93,6 +94,7 @@ let loginInitialValue = {
 const Login = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(loginInitialValue);
+  const { setAccount } = useContext(DataContext);
 
   useEffect(() => {
     if (localStorage.getItem('chat-app-user')) {
@@ -117,6 +119,12 @@ const Login = () => {
           'refreshToken',
           `Bearer ${res.data.refreshToken}`
         );
+
+        setAccount({
+          username: res.data.username,
+          email: res.data.email,
+          user_id: res.data._id,
+        });
         navigate('/chat');
       } else {
         toast.error(res?.error?.message, toastOptions);

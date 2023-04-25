@@ -50,7 +50,7 @@ export function createAccessToken(
             _id: Types.ObjectId;
           }
         >,
-        'username' | 'email'
+        '_id' | 'username' | 'email'
       >
 ) {
   const accessToken = sign(user, {

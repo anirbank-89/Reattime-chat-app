@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Chat from './pages/Chat';
 
 // Components
+import DataProvider from './context/DataProvider';
 import SetAvatar from './components/SetAvatar';
 
 function App() {
@@ -19,14 +20,16 @@ function App() {
   });
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route exact path="/" element={<Register />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/chat" element={<Chat />} />
-        <Route exact path="/set-avatar" element={<SetAvatar />} />
-      </Routes>
-    </BrowserRouter>
+    <DataProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Register />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/chat" element={<Chat />} />
+          <Route exact path="/set-avatar" element={<SetAvatar />} />
+        </Routes>
+      </BrowserRouter>
+    </DataProvider>
   );
 }
 
