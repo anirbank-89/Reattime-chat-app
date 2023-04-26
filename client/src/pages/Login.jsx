@@ -98,7 +98,7 @@ const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem('chat-app-user')) {
-      navigate('/chat');
+      navigate('/set-avatar');
     }
   }, []);
 
@@ -125,7 +125,7 @@ const Login = () => {
           email: res.data.email,
           user_id: res.data._id,
         });
-        navigate('/chat');
+        navigate('/set-avatar');
       } else {
         toast.error(res?.error?.message, toastOptions);
       }

@@ -98,7 +98,7 @@ const Register = () => {
 
   useEffect(() => {
     if (localStorage.getItem('chat-app-user')) {
-      navigate('/chat');
+      navigate('/set-avatar');
     }
   }, []);
 
@@ -119,7 +119,7 @@ const Register = () => {
           'refreshToken',
           `Bearer ${res.data.refreshToken}`
         );
-        navigate('/chat');
+        navigate('/set-avatar');
       } else {
         toast.error('Something went wrong', toastOptions);
       }

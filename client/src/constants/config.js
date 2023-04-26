@@ -33,5 +33,9 @@ export const API_NOTIFICATION_MESSAGES = {
 export const SERVICE_URLS = {
   userSignup: { url: '/api/user', method: 'POST' },
   userSignin: { url: '/api/user/session', method: 'POST' },
-  userSetAvatar: { url: '/api/user/set-avatar', method: 'POST' },
+  userSetAvatar: {
+    url: '/api/user/set-avatar',
+    method: 'PUT',
+    params: true,
+  },
 };

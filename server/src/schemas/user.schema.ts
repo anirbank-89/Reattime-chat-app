@@ -24,3 +24,12 @@ export const createUserSessionSchema = object({
     password: string().required('Password is required'),
   }),
 });
+
+export const setUserAvatarSchema = object({
+  body: object({
+    avatarImage: string().required('Avatar image is required'),
+  }),
+  params: object({
+    id: string().required('id in params is required'),
+  }),
+});

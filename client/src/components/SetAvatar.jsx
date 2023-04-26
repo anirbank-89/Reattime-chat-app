@@ -1,15 +1,16 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+// import axios from 'axios';
 import { createAvatar } from '@dicebear/core';
 import { lorelei } from '@dicebear/collection';
 
 import 'react-toastify/dist/ReactToastify.css';
 
 import loader from '../assets/loader.gif';
-import { DataContext } from '../context/DataProvider';
-// import { JSON_API } from '../services/api';
+// import { AVATAR_GEN } from '../constants/data';
+import { JSON_API } from '../services/api';
 
 const Container = styled.div`
   display: flex;
@@ -76,31 +77,28 @@ const toastOptions = {
 
 const SetAvatar = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState({});
   const [avatars, setAvatars] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedAvatar, setSelectedAvatar] = useState(undefined);
 
   useEffect(() => {
     const data = [];
-    if (localStorage.getItem('chat-app-user')) {
-      setUser(localStorage.getItem('chat-app-user'));
-    }
+
     async function fetchImg() {
       for (let i = 0; i < 4; i++) {
         // Generate random avatars
-        // await axios
-        //   .get(`${AVATAR_GEN}/${Math.round(Math.random() * 1000)}`)
-
-        // https://www.dicebear.com/how-to-use/js-library
+        /** https://www.dicebear.com/how-to-use/js-library */
         const avatar = createAvatar(lorelei, {
           seed: 'Felix',
-          flip: 'false',
+          flip: false,
         });
 
+        // await axios
+        //   .get(`${AVATAR_GEN}/${Math.round(Math.random() * 1000)}`)
         await avatar
           .toDataUri()
           .then((file) => {
+            console.log(file);
             // const buffer = new Buffer(file.data);
             // data.push(buffer.toString('base64'));
             data.push(file);
@@ -120,7 +118,16 @@ const SetAvatar = () => {
     if (selectedAvatar === undefined) {
       toast.error('Please select an avatar.', toastOptions);
     } else {
-      console.log('user account', user);
+      const user = await JSON.parse(localStorage.getItem('chat-app-user'));
+      try {
+        let response = await JSON_API['userSetAvatar']({
+          id: user._id,
+          avatarImage: avatars[selectedAvatar],
+        });
+        console.log('set profile image response', response?.data);
+      } catch (err) {
+        console.log('set profile pic err', err);
+      }
     }
   };
 
