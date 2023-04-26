@@ -22,7 +22,7 @@ router.post('/', validateRequest(createUserSchema), registerUser);
 router.post('/session', validateRequest(createUserSessionSchema), loginUser);
 router.put(
   '/set-avatar/:id',
-  // requiresUser,
+  requiresUser,
   validateRequest(setUserAvatarSchema),
   updateUserAvatar
 );

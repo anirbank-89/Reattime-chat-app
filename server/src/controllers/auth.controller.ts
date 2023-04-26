@@ -15,12 +15,17 @@ export const registerUser = async (req: Request, res: Response) => {
     const user = await createUser(req.body);
 
     // create access token - service
-    const accessToken = createAccessToken(omit(user.toJSON(), 'password')); // { user, session }
+    const accessToken = createAccessToken(
+      omit(user.toJSON(), ['password', 'avatarImage'])
+    ); // { user, session }
 
     // create refresh token - utils
-    const refreshToken = sign(omit(user.toJSON(), 'password'), {
-      expiresIn: 60, // Number(process.env.REFRESH_TOKEN_TTL),
-    });
+    const refreshToken = sign(
+      omit(user.toJSON(), ['password', 'avatarImage']),
+      {
+        expiresIn: 60, // Number(process.env.REFRESH_TOKEN_TTL),
+      }
+    );
 
     return res.status(201).send({
       accessToken,
@@ -49,10 +54,10 @@ export const loginUser = async (req: Request, res: Response) => {
     // create a session - service
 
     // create access token - service
-    const accessToken = createAccessToken(user); // { user, session }
+    const accessToken = createAccessToken(omit(user, 'avatarImage')); // { user, session }
 
     // create refresh token - utils
-    const refreshToken = sign(user, {
+    const refreshToken = sign(omit(user, 'avatarImage'), {
       expiresIn: 60, // Number(process.env.REFRESH_TOKEN_TTL),
     });
 

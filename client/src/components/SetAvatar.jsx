@@ -125,8 +125,15 @@ const SetAvatar = () => {
           avatarImage: avatars[selectedAvatar],
         });
         console.log('set profile image response', response?.data);
+
+        if (response.isSuccess) {
+          user.isAvatarImageSet = true;
+          user.avatarImage = response.data.image;
+          localStorage.setItem('chat-app-user', JSON.stringify(user));
+          navigate('/');
+        }
       } catch (err) {
-        console.log('set profile pic err', err);
+        console.log('set profile pic err', err.message);
       }
     }
   };

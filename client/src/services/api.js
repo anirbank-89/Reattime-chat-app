@@ -5,7 +5,7 @@ import {
   API_NOTIFICATION_MESSAGES,
   SERVICE_URLS,
 } from '../constants/config';
-import { getTokens } from '../utils/common-utils';
+import { getTokens, getTypes } from '../utils/common-utils';
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -17,6 +17,11 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   function (config) {
+    if (config.TYPE.params) {
+      config.url = config.url + '/' + config.TYPE.params.id;
+    } else if (config.TYPE.query) {
+      config.url = config.url + config.TYPE.query;
+    }
     return config;
   },
   function (error) {
@@ -91,6 +96,7 @@ for (const [key, value] of Object.entries(SERVICE_URLS)) {
       data: body,
       responseType: value.responseType,
       headers: getTokens(),
+      TYPE: getTypes(value, body),
       onUploadProgress: function (progressEvent) {
         if (showUploadProgress) {
           let percentageCompleted = Math.round(

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Types } from 'mongoose';
+import { omit } from 'lodash';
 
 import userModel from '../models/user.model';
 
@@ -8,12 +8,16 @@ export const updateUserAvatar = async (req: Request, res: Response) => {
     var id: string = req.params.id;
 
     await userModel
-      .findByIdAndUpdate(id, req.body, { new: true })
+      .findByIdAndUpdate(
+        id,
+        { avatarImage: req.body.avatarImage, isAvatarImageSet: true },
+        { new: true }
+      )
       .then((doc) => {
         res.status(200).json({
           status: true,
           message: 'Avatar image set',
-          data: doc,
+          data: { image: doc?.toJSON().avatarImage },
         });
       });
   } catch (err: any) {

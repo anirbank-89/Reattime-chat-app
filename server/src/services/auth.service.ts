@@ -42,16 +42,15 @@ export async function validateCredentials({
 }
 
 export function createAccessToken(
-  user:
-    | Omit<UserDocument, 'password'>
-    | Pick<
-        FlattenMaps<
-          UserDocument & {
-            _id: Types.ObjectId;
-          }
-        >,
-        '_id' | 'username' | 'email'
-      >
+  user: // | Omit<UserDocument, 'password'>
+  Pick<
+    FlattenMaps<
+      UserDocument & {
+        _id: Types.ObjectId;
+      }
+    >,
+    '_id' | 'username' | 'email'
+  >
 ) {
   const accessToken = sign(user, {
     expiresIn: 3600, // Number(process.env.ACCESS_TOKEN_TTL),
