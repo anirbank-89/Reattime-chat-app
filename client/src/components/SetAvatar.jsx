@@ -82,6 +82,12 @@ const SetAvatar = () => {
   const [selectedAvatar, setSelectedAvatar] = useState(undefined);
 
   useEffect(() => {
+    if (!localStorage.getItem('chat-app-user')) {
+      navigate('/login');
+    }
+  }, []);
+
+  useEffect(() => {
     const data = [];
 
     async function fetchImg() {
@@ -130,7 +136,7 @@ const SetAvatar = () => {
           user.isAvatarImageSet = true;
           user.avatarImage = response.data.image;
           localStorage.setItem('chat-app-user', JSON.stringify(user));
-          navigate('/');
+          navigate('/chat');
         }
       } catch (err) {
         console.log('set profile pic err', err.message);

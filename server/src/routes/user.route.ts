@@ -12,7 +12,7 @@ import {
 
 // Controllers
 import { registerUser, loginUser } from '../controllers/auth.controller';
-import { updateUserAvatar } from '../controllers/user.controller';
+import { updateUserAvatar, getContacts } from '../controllers/user.controller';
 
 const router = express.Router();
 /** ----------- Routes ----------- */
@@ -26,6 +26,7 @@ router.put(
   validateRequest(setUserAvatarSchema),
   updateUserAvatar
 );
+router.get('/get-contacts', requiresUser, getContacts);
 /** ------------------------------ */
 
 export default router;

@@ -38,4 +38,5 @@ export const SERVICE_URLS = {
     method: 'PUT',
     params: true,
   },
+  getContacts: { url: '/api/user/get-contacts', method: 'GET' },
 };

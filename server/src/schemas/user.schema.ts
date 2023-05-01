@@ -33,3 +33,5 @@ export const setUserAvatarSchema = object({
     id: string().required('id in params is required'),
   }),
 });
+
+export const getAllUsersSchema = object({});
