@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { JSON_API } from '../services/api';
 
+// Components
+import Contacts from '../components/Contacts';
+
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
@@ -30,32 +33,37 @@ const Chat = () => {
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(undefined);
 
-  const getContacts = async () => {
-    return await JSON_API['getContacts'];
-  };
-
   useEffect(() => {
+    let chatUser;
+
     if (!localStorage.getItem('chat-app-user')) {
       navigate('/login');
     } else {
-      setCurrentUser(JSON.parse(localStorage.getItem('chat-app-user')));
+      chatUser = JSON.parse(localStorage.getItem('chat-app-user'));
     }
 
-    if (currentUser && currentUser.isAvatarImageSet === true) {
-      let res = getContacts();
-      console.log('contacts', res);
+    setCurrentUser(chatUser);
 
-      if (res.isSuccess) {
-        setContacts(res.data);
-      } else {
-        navigate('/set-avatar');
-      }
+    if (chatUser && chatUser.isAvatarImageSet === true) {
+      const getContacts = async () => {
+        let res = await JSON_API['getContacts']();
+
+        if (res.isSuccess) {
+          setContacts(res.data.data);
+        } else {
+          navigate('/set-avatar');
+        }
+      };
+
+      getContacts();
     }
   }, []);
 
   return (
     <Container>
-      <div className="container">Chat</div>
+      <div className="container">
+        <Contacts contacts={contacts} currentUser={currentUser} />
+      </div>
     </Container>
   );
 };

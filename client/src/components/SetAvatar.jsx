@@ -104,7 +104,7 @@ const SetAvatar = () => {
         await avatar
           .toDataUri()
           .then((file) => {
-            console.log(file);
+            console.log('Avatar file from api', file);
             // const buffer = new Buffer(file.data);
             // data.push(buffer.toString('base64'));
             data.push(file);
@@ -125,16 +125,17 @@ const SetAvatar = () => {
       toast.error('Please select an avatar.', toastOptions);
     } else {
       const user = await JSON.parse(localStorage.getItem('chat-app-user'));
+      // console.log('local user data on set avatar', user);
       try {
         let response = await JSON_API['userSetAvatar']({
           id: user._id,
           avatarImage: avatars[selectedAvatar],
         });
-        console.log('set profile image response', response?.data);
+        // console.log('set profile image response', response?.data?.data);
 
         if (response.isSuccess) {
           user.isAvatarImageSet = true;
-          user.avatarImage = response.data.image;
+          user.avatarImage = response.data.data.image;
           localStorage.setItem('chat-app-user', JSON.stringify(user));
           navigate('/chat');
         }
