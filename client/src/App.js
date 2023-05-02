@@ -4,11 +4,11 @@ import { useEffect } from 'react';
 // Pages
 import Register from './pages/Register';
 import Login from './pages/Login';
+import SetAvatar from './pages/SetAvatar';
 import Chat from './pages/Chat';
 
 // Components
 import DataProvider from './context/DataProvider';
-import SetAvatar from './components/SetAvatar';
 
 function App() {
   useEffect(() => {
@@ -25,8 +25,8 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Register />} />
           <Route exact path="/login" element={<Login />} />
-          <Route exact path="/chat" element={<Chat />} />
           <Route exact path="/set-avatar" element={<SetAvatar />} />
+          <Route exact path="/chat" element={<Chat />} />
         </Routes>
       </BrowserRouter>
     </DataProvider>

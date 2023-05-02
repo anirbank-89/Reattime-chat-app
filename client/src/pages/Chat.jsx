@@ -6,6 +6,8 @@ import { JSON_API } from '../services/api';
 
 // Components
 import Contacts from '../components/Contacts';
+import Welcome from '../components/Welcome';
+import ChatContainer from '../components/ChatContainer';
 
 const Container = styled.div`
   height: 100vh;
@@ -31,7 +33,8 @@ const Container = styled.div`
 const Chat = () => {
   const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentUser, setCurrentUser] = useState('');
+  const [currentChat, setCurrentChat] = useState(undefined);
 
   useEffect(() => {
     let chatUser;
@@ -40,9 +43,8 @@ const Chat = () => {
       navigate('/login');
     } else {
       chatUser = JSON.parse(localStorage.getItem('chat-app-user'));
+      setCurrentUser(chatUser);
     }
-
-    setCurrentUser(chatUser);
 
     if (chatUser && chatUser.isAvatarImageSet === true) {
       const getContacts = async () => {
@@ -59,10 +61,23 @@ const Chat = () => {
     }
   }, []);
 
+  const handleChatChange = (user) => {
+    setCurrentChat(user);
+  };
+
   return (
     <Container>
       <div className="container">
-        <Contacts contacts={contacts} currentUser={currentUser} />
+        <Contacts
+          contacts={contacts}
+          currentUser={currentUser}
+          changeChat={handleChatChange}
+        />
+        {currentChat === undefined ? (
+          <Welcome currentUser={currentUser} />
+        ) : (
+          <ChatContainer currentUser={currentUser} />
+        )}
       </div>
     </Container>
   );
