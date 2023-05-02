@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { BiPowerOff } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 
 // Assets
 import Logo from '../assets/logo.svg';
@@ -65,7 +67,6 @@ const Container = styled.div`
   .current-user {
     background-color: #0d0d30;
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 2rem;
     .avatar {
@@ -79,6 +80,16 @@ const Container = styled.div`
         color: white;
       }
     }
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1rem;
+      h3 {
+        color: #e9ff33;
+        margin-bottom: 0;
+      }
+    }
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       gap: 05.5rem;
       .username {
@@ -86,11 +97,30 @@ const Container = styled.div`
           font-size: 1rem;
         }
       }
+      .logout-btn {
+        h3 {
+          font-size: 0.75rem;
+        }
+      }
     }
   }
 `;
 
+const LogoutBtn = styled.button`
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #9a86f3;
+  border: none;
+  cursor: pointer;
+  svg {
+    color: #ebe7ff;
+  }
+`;
+
 const Contacts = ({ contacts, currentUser, changeChat }) => {
+  const navigate = useNavigate();
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
@@ -105,6 +135,12 @@ const Contacts = ({ contacts, currentUser, changeChat }) => {
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
     changeChat(contact);
+  };
+
+  const logout = async () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    navigate('/login');
   };
 
   return (
@@ -142,6 +178,12 @@ const Contacts = ({ contacts, currentUser, changeChat }) => {
             </div>
             <div className="username">
               <h2>{currentUserName}</h2>
+            </div>
+            <div className="logout-btn">
+              <h3>Logout</h3>
+              <LogoutBtn>
+                <BiPowerOff onClick={logout} />
+              </LogoutBtn>
             </div>
             {/* </div> */}
           </div>

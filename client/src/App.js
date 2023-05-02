@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
 // Pages
 import Register from './pages/Register';
@@ -11,13 +11,13 @@ import Chat from './pages/Chat';
 import DataProvider from './context/DataProvider';
 
 function App() {
-  useEffect(() => {
-    return () => {
-      window.onbeforeunload = function () {
-        localStorage.clear();
-      };
-    };
-  });
+  // useEffect(() => {
+  //   return () => {
+  //     window.onbeforeunload = function () {
+  //       localStorage.clear();
+  //     };
+  //   };
+  // });
 
   return (
     <DataProvider>

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// API function
 import { JSON_API } from '../services/api';
 
 // Components
@@ -34,7 +35,8 @@ const Chat = () => {
   const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState('');
-  const [currentChat, setCurrentChat] = useState(undefined);
+  const [currentChat, setCurrentChat] = useState('');
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     let chatUser;
@@ -43,6 +45,7 @@ const Chat = () => {
       navigate('/login');
     } else {
       chatUser = JSON.parse(localStorage.getItem('chat-app-user'));
+      setIsLoaded(true);
       setCurrentUser(chatUser);
     }
 
@@ -73,10 +76,10 @@ const Chat = () => {
           currentUser={currentUser}
           changeChat={handleChatChange}
         />
-        {currentChat === undefined ? (
+        {isLoaded && currentChat === '' ? (
           <Welcome currentUser={currentUser} />
         ) : (
-          <ChatContainer currentUser={currentUser} />
+          <ChatContainer currentChat={currentChat} />
         )}
       </div>
     </Container>
