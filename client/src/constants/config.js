@@ -39,4 +39,6 @@ export const SERVICE_URLS = {
     params: true,
   },
   getContacts: { url: '/api/user/get-contacts', method: 'GET' },
+  addMessage: { url: '/api/message', method: 'POST' },
+  exchangedMessages: { url: '/api/message/exchanged-messages', method: 'POST' },
 };

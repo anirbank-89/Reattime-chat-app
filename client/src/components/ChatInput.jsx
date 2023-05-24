@@ -71,7 +71,7 @@ const Container = styled.div`
     background-color: #ffffff34;
     input {
       width: 90%;
-      height: 60%;
+      // height: 60%;
       background-color: transparent;
       color: white;
       border: none;
@@ -113,7 +113,13 @@ const ChatInput = ({ handleSendMsg }) => {
     setMsg(message);
   };
 
-  const sendChat = () => {};
+  const sendChat = (event) => {
+    event.preventDefault();
+    if (msg.length > 0) {
+      handleSendMsg(msg);
+      setMsg('');
+    }
+  };
 
   return (
     <Container>
@@ -127,7 +133,7 @@ const ChatInput = ({ handleSendMsg }) => {
           )}
         </div>
       </div>
-      <form action="" className="input-container">
+      <form action="" className="input-container" onSubmit={(e) => sendChat(e)}>
         <input
           type="text"
           name="msg"
